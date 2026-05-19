@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTL Gym | All-In Fitness Experience</title>
+  <meta name="description" content="A premium parallax landing page concept for FTL Gym, featuring 24/7 access, 60+ clubs, reformer Pilates, group exercise classes, personal training, and wellness facilities.">
+  <meta name="theme-color" content="#070807">
+  <meta property="og:title" content="FTL Gym | All-In Fitness Experience">
+  <meta property="og:description" content="Not just a gym. A lifestyle upgrade with nationwide access, Pilates, group classes, wellness facilities, and certified trainers.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=85&w=1600&auto=format&fit=crop">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ftl: {
+              lime: "#c8ff3d",
+              green: "#22c55e",
+              cyan: "#22d3ee",
+              ink: "#070807",
+              panel: "#121411",
+              card: "#1c2119"
+            }
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            heading: ["Archivo", "sans-serif"]
+          },
+          boxShadow: {
+            glow: "0 24px 90px -32px rgba(200, 255, 61, 0.55)",
+            cyan: "0 24px 90px -36px rgba(34, 211, 238, 0.45)"
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #070807;
+      color: #e7eee2;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.9), transparent 72%);
+      pointer-events: none;
+    }
+    .scroll-progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      z-index: 90;
+      width: var(--progress, 0%);
+      height: 3px;
+      background: linear-gradient(90deg, #c8ff3d, #22d3ee);
+    }
+    .hero-bg {
+      background-image:
+        linear-gradient(104deg, rgba(7,8,7,.98) 0%, rgba(7,8,7,.74) 44%, rgba(7,8,7,.28) 100%),
+        url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=85&w=1900&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .pilates-bg {
+      background-image:
+        linear-gradient(90deg, rgba(7,8,7,.94), rgba(7,8,7,.38), rgba(7,8,7,.9)),
+        url("https://images.unsplash.com/photo-1518611012118-696072aa579a?q=85&w=1900&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .cta-bg {
+      background-image:
+        linear-gradient(115deg, rgba(200,255,61,.92), rgba(34,197,94,.72), rgba(7,8,7,.88)),
+        url("https://images.unsplash.com/photo-1534258936925-c58bed479fcb?q=85&w=1900&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+    .reveal {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .82s cubic-bezier(.16,1,.3,1), transform .82s cubic-bezier(.16,1,.3,1), visibility .82s;
+    }
+    .reveal.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(0,0) scale(1);
+    }
+    .reveal-up { transform: translateY(42px); }
+    .reveal-left { transform: translateX(-42px); }
+    .reveal-right { transform: translateX(42px); }
+    .reveal-zoom { transform: scale(.96); }
+    .delay-100 { transition-delay: 100ms; }
+    .delay-200 { transition-delay: 200ms; }
+    .delay-300 { transition-delay: 300ms; }
+    .delay-400 { transition-delay: 400ms; }
+    #mobile-menu {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height .42s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+    }
+    #mobile-menu.open {
+      max-height: 640px;
+      opacity: 1;
+    }
+    .glow-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+    }
+    .glow-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        420px circle at var(--mouse-x,0) var(--mouse-y,0),
+        rgba(200,255,61,.15),
+        transparent 42%
+      );
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .28s ease;
+    }
+    .glow-card:hover::before { opacity: 1; }
+    .glow-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,255,61,.56);
+      box-shadow: 0 24px 70px -36px rgba(200,255,61,.52);
+    }
+    .glow-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+    .parallax-float {
+      transform: translate3d(0, var(--parallax-y, 0), 0);
+      will-change: transform;
+    }
+    .glass {
+      background: rgba(18,20,17,.76);
+      backdrop-filter: blur(18px);
+    }
+    @media (max-width: 768px) {
+      .hero-bg, .pilates-bg, .cta-bg { background-attachment: scroll; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <nav id="navbar" class="fixed inset-x-0 top-0 z-50 bg-ftl-ink/82 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-20 flex items-center justify-between">
+        <a href="#home" class="font-heading text-2xl font-black tracking-tight uppercase text-white">
+          FTL<span class="text-ftl-lime">GYM</span>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-[0.16em]">
+          <a href="#why" class="text-white/70 hover:text-ftl-lime transition-colors">Why FTL</a>
+          <a href="#pilates" class="text-white/70 hover:text-ftl-lime transition-colors">Pilates</a>
+          <a href="#classes" class="text-white/70 hover:text-ftl-lime transition-colors">Classes</a>
+          <a href="#clubs" class="text-white/70 hover:text-ftl-lime transition-colors">Clubs</a>
+          <a href="#trainers" class="text-white/70 hover:text-ftl-lime transition-colors">PT</a>
+          <a href="#faq" class="text-white/70 hover:text-ftl-lime transition-colors">FAQ</a>
+          <a href="https://selfregist.ftlgym.com/" target="_blank" rel="noreferrer" class="bg-ftl-lime text-ftl-ink px-6 py-3 font-heading text-sm tracking-wider hover:bg-white transition-colors">
+            Join Now
+          </a>
+        </div>
+
+        <button id="mobile-menu-btn" class="lg:hidden w-11 h-11 border border-white/15 text-white" type="button" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="lg:hidden bg-ftl-panel border-b border-white/10">
+      <div class="px-4 py-5 grid gap-1 text-sm font-bold uppercase tracking-wider">
+        <a class="mobile-link px-3 py-3 text-white/80 hover:bg-white/5" href="#why">Why FTL</a>
+        <a class="mobile-link px-3 py-3 text-white/80 hover:bg-white/5" href="#pilates">Pilates</a>
+        <a class="mobile-link px-3 py-3 text-white/80 hover:bg-white/5" href="#classes">Classes</a>
+        <a class="mobile-link px-3 py-3 text-white/80 hover:bg-white/5" href="#clubs">Clubs</a>
+        <a class="mobile-link px-3 py-3 text-white/80 hover:bg-white/5" href="#trainers">Personal Training</a>
+        <a class="mobile-link px-3 py-3 text-ftl-lime hover:bg-white/5" href="https://selfregist.ftlgym.com/" target="_blank" rel="noreferrer">Join Now</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-24 relative overflow-hidden">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(200,255,61,.18),transparent_28%),radial-gradient(circle_at_80%_45%,rgba(34,211,238,.12),transparent_30%)]"></div>
+      <div class="hidden xl:block absolute right-8 top-1/2 -translate-y-1/2 text-white/55 text-[10px] font-black tracking-[0.42em] uppercase [writing-mode:vertical-rl]">
+        All-In Gym Experience
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="max-w-4xl reveal reveal-up">
+          <div class="inline-flex items-center gap-3 glass border border-white/10 px-4 py-2 text-ftl-lime text-xs font-black uppercase tracking-[0.22em] mb-7">
+            <i class="fas fa-bolt"></i> 60+ Clubs Nationwide / 24-7 Access
+          </div>
+          <h1 class="font-heading text-6xl sm:text-7xl lg:text-9xl font-black uppercase leading-[0.92] tracking-tight text-white mb-8">
+            Not Just<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-ftl-lime via-ftl-green to-ftl-cyan">A Gym</span>
+          </h1>
+          <p class="max-w-2xl text-lg md:text-xl text-white/72 leading-relaxed font-light mb-10">
+            A lifestyle upgrade for people who want unlimited training access, reformer Pilates, studio classes, wellness facilities, and certified coaching in one premium ecosystem.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="https://selfregist.ftlgym.com/" target="_blank" rel="noreferrer" class="bg-ftl-lime text-ftl-ink text-center px-9 py-4 font-heading font-black uppercase tracking-wider hover:bg-white transition-all shadow-glow">
+              Register Now
+            </a>
+            <a href="#why" class="border border-white/20 glass text-white text-center px-9 py-4 font-heading font-black uppercase tracking-wider hover:border-ftl-lime hover:text-ftl-lime transition-all">
+              Explore FTL
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 inset-x-0 z-10 border-t border-white/10 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div class="reveal reveal-up delay-100">
+            <p class="font-heading text-3xl text-ftl-lime font-black">60+</p>
+            <p class="text-xs uppercase tracking-widest text-white/60">Clubs nationwide</p>
+          </div>
+          <div class="reveal reveal-up delay-200">
+            <p class="font-heading text-3xl text-ftl-lime font-black">24/7</p>
+            <p class="text-xs uppercase tracking-widest text-white/60">Unlimited access</p>
+          </div>
+          <div class="reveal reveal-up delay-300">
+            <p class="font-heading text-3xl text-ftl-lime font-black">6,000+</p>
+            <p class="text-xs uppercase tracking-widest text-white/60">Classes monthly</p>
+          </div>
+          <div class="reveal reveal-up delay-400">
+            <p class="font-heading text-3xl text-ftl-lime font-black">40+</p>
+            <p class="text-xs uppercase tracking-widest text-white/60">Class variations</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-6 overflow-hidden bg-ftl-lime text-ftl-ink">
+      <div class="marquee-track font-heading text-3xl md:text-5xl font-black uppercase tracking-tight">
+        <span class="px-8">Reformer Pilates</span><span>/</span>
+        <span class="px-8">Les Mills</span><span>/</span>
+        <span class="px-8">HYROX</span><span>/</span>
+        <span class="px-8">Zumba</span><span>/</span>
+        <span class="px-8">Cycling</span><span>/</span>
+        <span class="px-8">Strength</span><span>/</span>
+        <span class="px-8">Reformer Pilates</span><span>/</span>
+        <span class="px-8">Les Mills</span><span>/</span>
+        <span class="px-8">HYROX</span><span>/</span>
+        <span class="px-8">Zumba</span><span>/</span>
+        <span class="px-8">Cycling</span><span>/</span>
+        <span class="px-8">Strength</span><span>/</span>
+      </div>
+    </section>
+
+    <section id="why" class="py-28 bg-ftl-ink">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-[0.95fr_1.05fr] gap-14 items-center">
+          <div class="relative reveal reveal-left parallax-float" data-speed="0.045">
+            <div class="absolute -inset-5 border border-ftl-lime/30"></div>
+            <img class="relative h-[560px] w-full object-cover" src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=85&w=1200&auto=format&fit=crop" alt="Premium gym training floor">
+            <div class="absolute bottom-6 left-6 right-6 glass border border-white/10 p-5">
+              <p class="text-ftl-lime font-heading text-4xl font-black">FTL</p>
+              <p class="text-white/70 text-sm">Complete facilities. Nationwide movement. More ways to train.</p>
+            </div>
+          </div>
+
+          <div class="reveal reveal-right delay-100">
+            <p class="text-ftl-lime text-xs font-black uppercase tracking-[0.25em] mb-3">Why FTL?</p>
+            <h2 class="font-heading text-5xl md:text-7xl font-black uppercase leading-[0.95] text-white mb-7">
+              One ecosystem for every training style.
+            </h2>
+            <p class="text-white/65 leading-relaxed mb-8">
+              FTL combines gym access, group exercise, Pilates, wellness, sports facilities, and Personal Training into a membership experience built for consistency and lifestyle.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="glow-card bg-ftl-card p-6">
+                <i class="fas fa-dumbbell text-ftl-lime text-2xl mb-4"></i>
+                <h3 class="font-heading text-xl text-white font-black uppercase mb-2">Complete Facilities</h3>
+                <p class="text-sm text-white/58">Cardio, strength, studios, lockers, showers, towels, and wellness areas by club.</p>
+              </div>
+              <div class="glow-card bg-ftl-card p-6">
+                <i class="fas fa-clock text-ftl-lime text-2xl mb-4"></i>
+                <h3 class="font-heading text-xl text-white font-black uppercase mb-2">24/7 Access</h3>
+                <p class="text-sm text-white/58">Train on your schedule with unlimited club access across FTL locations.</p>
+              </div>
+              <div class="glow-card bg-ftl-card p-6">
+                <i class="fas fa-people-group text-ftl-lime text-2xl mb-4"></i>
+                <h3 class="font-heading text-xl text-white font-black uppercase mb-2">6,000+ Classes</h3>
+                <p class="text-sm text-white/58">Every month across cardio, strength, cycling, yoga, dance, Pilates, and more.</p>
+              </div>
+              <div class="glow-card bg-ftl-card p-6">
+                <i class="fas fa-shield-heart text-ftl-lime text-2xl mb-4"></i>
+                <h3 class="font-heading text-xl text-white font-black uppercase mb-2">Money-Back Program</h3>
+                <p class="text-sm text-white/58">A trust-focused program covering unused membership periods if a home club closes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pilates" class="pilates-bg min-h-[82vh] flex items-center py-28 relative">
+      <div class="absolute inset-0 bg-gradient-to-t from-ftl-ink via-transparent to-ftl-ink/60"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl reveal reveal-up">
+          <p class="text-ftl-lime text-xs font-black uppercase tracking-[0.25em] mb-3">First Gym With Reformer Pilates</p>
+          <h2 class="font-heading text-5xl md:text-8xl font-black uppercase leading-[0.93] text-white mb-7">
+            Everyday Pilates, elevated.
+          </h2>
+          <p class="max-w-2xl text-white/72 text-lg leading-relaxed mb-9">
+            FTL brings one of Indonesia's largest Group Pilates programs, designed for beginners through advanced members with certified instructors and a full apparatus ecosystem.
+          </p>
+          <div class="flex flex-wrap gap-3 text-xs font-black uppercase tracking-widest">
+            <span class="px-4 py-2 bg-white text-ftl-ink">Reformer</span>
+            <span class="px-4 py-2 bg-white/10 border border-white/20 text-white">Tower</span>
+            <span class="px-4 py-2 bg-white/10 border border-white/20 text-white">Chair</span>
+            <span class="px-4 py-2 bg-white/10 border border-white/20 text-white">Ladder Barrel</span>
+            <span class="px-4 py-2 bg-white/10 border border-white/20 text-white">Spine Corrector</span>
+            <span class="px-4 py-2 bg-white/10 border border-white/20 text-white">MegaCore</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="classes" class="py-28 bg-ftl-panel">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+          <div class="reveal reveal-up">
+            <p class="text-ftl-lime text-xs font-black uppercase tracking-[0.25em] mb-3">Group Exercise</p>
+            <h2 class="font-heading text-5xl md:text-7xl font-black uppercase leading-none text-white">
+              Find the class that fits you.
+            </h2>
+          </div>
+          <p class="reveal reveal-up delay-100 text-white/60 max-w-md">
+            Explore 40+ class variations across strength, cardio, mind-body, Pilates, dance, cycling, and athletic performance.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-100">
+            <i class="fas fa-fire-flame-curved text-ftl-lime text-3xl mb-5"></i>
+            <h3 class="font-heading text-2xl font-black text-white uppercase mb-2">Les Mills</h3>
+            <p class="text-sm text-white/58">BodyCombat, BodyPump, RPM, and high-energy global class formats.</p>
+          </article>
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-200">
+            <i class="fas fa-medal text-ftl-lime text-3xl mb-5"></i>
+            <h3 class="font-heading text-2xl font-black text-white uppercase mb-2">HYROX</h3>
+            <p class="text-sm text-white/58">Functional performance training for power, conditioning, and endurance.</p>
+          </article>
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-300">
+            <i class="fas fa-heart-pulse text-ftl-lime text-3xl mb-5"></i>
+            <h3 class="font-heading text-2xl font-black text-white uppercase mb-2">Mind & Body</h3>
+            <p class="text-sm text-white/58">Yoga, mobility, recovery, and low-impact sessions for balance.</p>
+          </article>
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-400">
+            <i class="fas fa-music text-ftl-lime text-3xl mb-5"></i>
+            <h3 class="font-heading text-2xl font-black text-white uppercase mb-2">Zumba & Dance</h3>
+            <p class="text-sm text-white/58">Fun group movement built around rhythm, confidence, and sweat.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="clubs" class="py-28 bg-ftl-ink">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16 reveal reveal-up">
+          <p class="text-ftl-lime text-xs font-black uppercase tracking-[0.25em] mb-3">Club Network</p>
+          <h2 class="font-heading text-5xl md:text-7xl font-black uppercase leading-none text-white mb-5">
+            Near you, everywhere.
+          </h2>
+          <p class="text-white/60">Access more than 60 clubs across multiple Indonesian cities, with facilities varying by club type and location.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 mb-10">
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-100">
+            <p class="text-ftl-lime text-xs font-black uppercase tracking-widest mb-2">Jakarta</p>
+            <h3 class="font-heading text-3xl text-white font-black uppercase mb-3">Gading Sunter</h3>
+            <p class="text-sm text-white/58 mb-5">Open 24 hours with GX studio, Pilates studios, HYROX area, cycling, boxing, sauna, steam, towel service, and RFID lockers.</p>
+            <a href="https://maps.app.goo.gl/" target="_blank" rel="noreferrer" class="text-ftl-lime text-sm font-black uppercase tracking-wider">View Map</a>
+          </article>
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-200">
+            <p class="text-ftl-lime text-xs font-black uppercase tracking-widest mb-2">Ultra Club</p>
+            <h3 class="font-heading text-3xl text-white font-black uppercase mb-3">Mampang</h3>
+            <p class="text-sm text-white/58 mb-5">FTL Ultra experience with Beach Club, ice bath, hot tub, Pilates, studio classes, premium changing rooms, sauna, and steam.</p>
+            <a href="https://maps.app.goo.gl/" target="_blank" rel="noreferrer" class="text-ftl-lime text-sm font-black uppercase tracking-wider">View Map</a>
+          </article>
+          <article class="glow-card bg-ftl-card p-7 reveal reveal-up delay-300">
+            <p class="text-ftl-lime text-xs font-black uppercase tracking-widest mb-2">Coming Soon</p>
+            <h3 class="font-heading text-3xl text-white font-black uppercase mb-3">Bali & Bandung</h3>
+            <p class="text-sm text-white/58 mb-5">FTL continues expanding with clubs across Jakarta, Bekasi, Depok, Tangerang, Bogor, Bandung, and new destinations.</p>
+            <a href="https://ftlgym.com/" target="_blank" rel="noreferrer" class="text-ftl-lime text-sm font-black uppercase tracking-wider">Explore Locations</a>
+          </article>
+        </div>
+
+        <div class="h-80 border border-white/10 bg-ftl-card p-1 reveal reveal-up">
+          <iframe
+            title="FTL Gym Google Maps"
+            src="https://www.google.com/maps?q=FTL%20Gym%20Gading%20Sunter&output=embed"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section id="trainers" class="py-28 bg-ftl-panel">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-14 items-center">
+          <div class="reveal reveal-left">
+            <p class="text-ftl-lime text-xs font-black uppercase tracking-[0.25em] mb-3">Certified Personal Trainers</p>
+            <h2 class="font-heading text-5xl md:text-7xl font-black uppercase leading-none text-white mb-7">
+              Train smarter. Stay consistent.
+            </h2>
+            <p class="text-white/62 leading-relaxed mb-8">
+              FTL Personal Trainers help members reach goals faster with personalized programming, technique guidance, motivation, accountability, and progress tracking.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="bg-ftl-card border border-white/10 p-5">
+                <h3 class="font-heading text-xl font-black text-white uppercase">Weight & Fat Loss</h3>
+                <p class="text-sm text-white/55 mt-2">Structured programs for sustainable body composition progress.</p>
+              </div>
+              <div class="bg-ftl-card border border-white/10 p-5">
+                <h3 class="font-heading text-xl font-black text-white uppercase">Muscle Gain</h3>
+                <p class="text-sm text-white/55 mt-2">Progressive strength training and coaching for hypertrophy.</p>
+              </div>
+              <div class="bg-ftl-card border border-white/10 p-5">
+                <h3 class="font-heading text-xl font-black text-white uppercase">Strength & Power</h3>
+                <p class="text-sm text-white/55 mt-2">Technique-first coaching for stronger, safer lifts.</p>
+              </div>
+              <div class="bg-ftl-card border border-white/10 p-5">
+                <h3 class="font-heading text-xl font-black text-white uppercase">Body Shaping</h3>
+                <p class="text-sm text-white/55 mt-2">Custom programs designed around your lifestyle and goals.</p>
+              </div>
+            </div>
+          </div>
+          <div class="relative reveal reveal-right parallax-float" data-speed="0.04">
+            <img class="w-full h-[560px] object-cover" src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=85&w=1200&auto=format&fit=crop" alt="Personal trainer coaching a gym member">
+            <div class="absolute inset-x-6 bottom-6 glass border border-white/10 p-6">
+              <p class="font-heading text-4xl text-white font-black uppercase">Guided by certified coaches</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-bg py-28 relative overflow-hidden">
+      <div class="absolute inset-0 bg-ftl-ink/30"></div>
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center reveal reveal-up">
+        <p class="text-ftl-ink text-xs font-black uppercase tracking-[0.25em] mb-4">Bring the excitement back</p>
+        <h2 class="font-heading text-5xl md:text-8xl font-black uppercase leading-[0.92] text-ftl-ink mb-8">
+          Turn your workout into a lifestyle.
+        </h2>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="https://selfregist.ftlgym.com/" target="_blank" rel="noreferrer" class="bg-ftl-ink text-white px-9 py-4 font-heading font-black uppercase tracking-wider hover:bg-white hover:text-ftl-ink transition-colors">
+            Join Membership
+          </a>
+          <a href="https://api.whatsapp.com/send?phone=62818687858" target="_blank" rel="noreferrer" class="bg-white/20 border border-ftl-ink/25 text-ftl-ink px-9 py-4 font-heading font-black uppercase tracking-wider hover:bg-white transition-colors">
+            WhatsApp Support
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-24 bg-ftl-ink">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 reveal reveal-up">
+          <p class="text-ftl-lime text-xs font-black uppercase tracking-[0.25em] mb-3">FAQ</p>
+          <h2 class="font-heading text-5xl font-black uppercase text-white">Membership essentials</h2>
+        </div>
+
+        <div class="grid gap-4">
+          <details class="group bg-ftl-card border border-white/10 p-6 reveal reveal-up">
+            <summary class="cursor-pointer list-none flex justify-between gap-5 font-heading text-2xl text-white font-black uppercase">
+              How do I join FTL Gym?
+              <span class="text-ftl-lime group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="text-white/60 mt-4">Register through the FTL Stride App, visit the self-registration page, or contact FTL Customer Support.</p>
+          </details>
+          <details class="group bg-ftl-card border border-white/10 p-6 reveal reveal-up">
+            <summary class="cursor-pointer list-none flex justify-between gap-5 font-heading text-2xl text-white font-black uppercase">
+              What membership types are available?
+              <span class="text-ftl-lime group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="text-white/60 mt-4">FTL offers Regular, Blue, Ultra, and Pilates+ membership options, each with different access levels.</p>
+          </details>
+          <details class="group bg-ftl-card border border-white/10 p-6 reveal reveal-up">
+            <summary class="cursor-pointer list-none flex justify-between gap-5 font-heading text-2xl text-white font-black uppercase">
+              Are Personal Trainers included?
+              <span class="text-ftl-lime group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="text-white/60 mt-4">Personal Trainer services are available as an additional service and can be customized around your goals.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black py-10 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between gap-5 text-sm text-white/50">
+      <p>(c) 2026 FTL Gym Landing Page Concept. Built as a parallax redesign preview.</p>
+      <div class="flex gap-5">
+        <a class="hover:text-ftl-lime" href="https://ftlgym.com/" target="_blank" rel="noreferrer">Official Site</a>
+        <a class="hover:text-ftl-lime" href="https://selfregist.ftlgym.com/" target="_blank" rel="noreferrer">Register</a>
+        <a class="hover:text-ftl-lime" href="https://www.instagram.com/ftlgym.official/" target="_blank" rel="noreferrer">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById("navbar");
+    const progress = document.getElementById("scroll-progress");
+    const menuButton = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const revealItems = document.querySelectorAll(".reveal");
+    const glowCards = document.querySelectorAll(".glow-card");
+    const floatItems = document.querySelectorAll("[data-speed]");
+
+    menuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("open");
+      const icon = menuButton.querySelector("i");
+      icon.classList.toggle("fa-bars");
+      icon.classList.toggle("fa-times");
+    });
+
+    document.querySelectorAll(".mobile-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        const icon = menuButton.querySelector("i");
+        icon.classList.add("fa-bars");
+        icon.classList.remove("fa-times");
+      });
+    });
+
+    function updateScrollUI() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const percentage = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      progress.style.setProperty("--progress", `${Math.min(percentage, 100)}%`);
+
+      navbar.classList.toggle("bg-ftl-ink", window.scrollY > 24);
+      navbar.classList.toggle("shadow-lg", window.scrollY > 24);
+
+      floatItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const speed = Number(item.dataset.speed || 0);
+        const offset = (rect.top - window.innerHeight / 2) * speed;
+        item.style.setProperty("--parallax-y", `${offset * -1}px`);
+      });
+    }
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+
+    glowCards.forEach((card) => {
+      card.addEventListener("mousemove", (event) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+        card.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+      });
+    });
+
+    updateScrollUI();
+    window.addEventListener("scroll", updateScrollUI, { passive: true });
+    window.addEventListener("resize", updateScrollUI);
+  </script>
+</body>
+</html>
