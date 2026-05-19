@@ -1,4 +1,5 @@
 node_modules/
+.npm-cache/
 .vercel/
-.vercel-cache/
 .env*.local
+.gitconfig-codex
