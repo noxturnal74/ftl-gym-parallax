@@ -178,6 +178,43 @@
         transition-duration: .01ms !important;
       }
     }
+
+    .brand-lockup {
+      display: inline-flex;
+      align-items: center;
+      gap: .72rem;
+      min-width: 0;
+    }
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .16);
+      padding: 6px;
+      flex: 0 0 auto;
+    }
+    .brand-logo.is-wide {
+      width: 72px;
+      border-radius: 10px;
+    }
+    .brand-lockup-text {
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .hero-brand-logo {
+      width: 98px;
+      height: 98px;
+      object-fit: contain;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .11);
+      border: 1px solid rgba(255, 255, 255, .18);
+      padding: 14px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 72px rgba(0, 0, 0, .35);
+    }
+
   </style>
 </head>
 <body class="font-sans antialiased overflow-x-hidden">
@@ -186,8 +223,8 @@
   <nav id="navbar" class="fixed inset-x-0 top-0 z-50 bg-ftl-ink/82 backdrop-blur-md border-b border-white/10 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="h-20 flex items-center justify-between">
-        <a href="#home" class="font-heading text-2xl font-black tracking-tight uppercase text-white">
-          FTL<span class="text-ftl-lime">GYM</span>
+        <a href="#home" class="font-heading text-2xl font-black tracking-tight uppercase text-white brand-lockup">
+          <img src="https://ftlgym.com/wp-content/uploads/2024/09/Logo-FTL-no-tagline.png" alt="FTL Gym logo" class="brand-logo is-wide" loading="eager"><span class="brand-lockup-text">FTL Gym</span>
         </a>
 
         <div class="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-[0.16em]">
@@ -229,6 +266,7 @@
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div class="max-w-4xl reveal reveal-up">
+          <img src="https://ftlgym.com/wp-content/uploads/2024/09/Logo-FTL-no-tagline.png" alt="FTL Gym logo" class="hero-brand-logo mb-7" loading="eager">
           <div class="inline-flex items-center gap-3 glass border border-white/10 px-4 py-2 text-ftl-lime text-xs font-black uppercase tracking-[0.22em] mb-7">
             <i class="fas fa-bolt"></i> 60+ Clubs Nationwide / 24-7 Access
           </div>
